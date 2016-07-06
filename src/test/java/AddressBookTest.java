@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 
@@ -38,8 +40,27 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook();
         addressBook.loadFromFile(addressBookFile);
 
-        assertThat(addressBook.oldest().isPresent(), is(true));
-        assertThat(addressBook.oldest().get().getName(), is("Wes Jackson"));
+        assertThat(addressBook.oldest(), is(not(empty())));
+        assertThat(addressBook.oldest().get(0).getName(), is("Wes Jackson"));
+    }
+
+    @Test
+    public void shouldReturnMultipleEntriesIfTheOldestEntriesSharesTheSameDateOfBirth() throws IOException {
+        File addressBookFile = AddressBookFileFixture.createAddressBook("Bill McKnight, Male, 16/03/77",
+                "Paul Robinson, Male, 16/03/77");
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.loadFromFile(addressBookFile);
+
+        assertThat(addressBook.oldest(), is(not(empty())));
+        assertThat(addressBook.oldest().get(0).getName(), is("Paul Robinson"));
+        assertThat(addressBook.oldest().get(1).getName(), is("Bill McKnight"));
+    }
+
+    @Test
+    public void noOldestEntryReturnedForEmptyAddressBook() throws IOException {
+        AddressBook addressBook = new AddressBook();
+        assertThat(addressBook.oldest(), is((empty())));
     }
 
 }

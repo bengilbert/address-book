@@ -1,8 +1,9 @@
 import java.io.File;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.*;
 
 public class AddressBook {
 
@@ -12,8 +13,16 @@ public class AddressBook {
         return entries.stream().filter(entry -> gender.equals(entry.getGender())).count();
     }
 
-    public Optional<Entry> oldest() {
-        return entries.stream().min(Comparator.comparing(Entry::getDateOfBirth));
+    public List<Entry> oldest() {
+        Map<LocalDate, List<Entry>> ages = entries.stream().collect(groupingBy(Entry::getDateOfBirth));
+
+        Optional<LocalDate> oldestDate = ages.keySet().stream().min(LocalDate::compareTo);
+
+        if (oldestDate.isPresent()) {
+            return ages.get(oldestDate.get());
+        }
+
+        return Collections.emptyList();
     }
 
     public void loadFromFile(File addressBookFile) {
