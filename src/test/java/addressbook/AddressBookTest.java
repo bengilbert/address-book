@@ -1,3 +1,6 @@
+package addressbook;
+
+import addressbook.entry.Entry;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,19 +18,17 @@ public class AddressBookTest {
 
     @Test
     public void shouldReturnZeroMalesInAddressBookWhenEmpty() {
-
         AddressBook addressBook = new AddressBook();
-        assertThat(addressBook.genderCount(Gender.MALE), is(0L));
-
+        assertThat(addressBook.numberOfMales(), is(0L));
     }
 
     @Test
-    public void shouldBeAbleToPopulateAddressBookFromFile() throws URISyntaxException {
+    public void shouldTheNumberOfMales() throws URISyntaxException {
         AddressBook addressBook = new AddressBook();
-        File file = new File(AddressBookTest.class.getResource("AddressBook").toURI());
+        File file = new File(AddressBookTest.class.getResource("AddressBook2").toURI());
         addressBook.loadFromFile(file);
 
-        assertThat(addressBook.genderCount(Gender.MALE), is(3L));
+        assertThat(addressBook.numberOfMales(), is(3L));
     }
 
     @Test
@@ -76,6 +77,19 @@ public class AddressBookTest {
         addressBook.loadFromFile(addressBookFile);
 
         Optional<Entry> byName = addressBook.findByName("Gemma Lane");
+
+        assertThat(byName.isPresent(), is(true));
+        assertThat(byName.get().getName(), is("Gemma Lane"));
+    }
+
+    @Test
+    public void canFindEntryByNameIsCaseInsensitive() throws IOException {
+        File addressBookFile = AddressBookFileFixture.createAddressBook("Gemma Lane, Female, 20/11/91");
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.loadFromFile(addressBookFile);
+
+        Optional<Entry> byName = addressBook.findByName("GEMMA LANE");
 
         assertThat(byName.isPresent(), is(true));
         assertThat(byName.get().getName(), is("Gemma Lane"));

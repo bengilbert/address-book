@@ -1,3 +1,7 @@
+package addressbook.entry;
+
+import addressbook.AddressBookFileFixture;
+import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import java.io.File;
@@ -20,7 +24,7 @@ public class EntryFactoryTest {
         Entry entry = entries.iterator().next();
         assertThat(entry.getDateOfBirth(), is(LocalDate.of(1977, 3, 16)));
         assertThat(entry.getName(), is("Bill McKnight"));
-        assertThat(entry.getGender(), is(Gender.MALE));
+        assertThat(entry.getGender(), Is.is(Gender.MALE));
     }
 
     @Test

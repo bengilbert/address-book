@@ -1,3 +1,5 @@
+package addressbook.entry;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 

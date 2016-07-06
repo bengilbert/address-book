@@ -1,3 +1,5 @@
+package addressbook.entry;
+
 import lombok.Value;
 
 import java.time.LocalDate;
