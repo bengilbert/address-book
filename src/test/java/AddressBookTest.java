@@ -3,6 +3,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
@@ -61,6 +62,31 @@ public class AddressBookTest {
     public void noOldestEntryReturnedForEmptyAddressBook() throws IOException {
         AddressBook addressBook = new AddressBook();
         assertThat(addressBook.oldest(), is((empty())));
+    }
+
+    @Test
+    public void canFindEntryByName() throws IOException {
+        File addressBookFile = AddressBookFileFixture.createAddressBook("Bill McKnight, Male, 16/03/77",
+                "Paul Robinson, Male, 15/01/85",
+                "Gemma Lane, Female, 20/11/91",
+                "Sarah Stone, Female, 20/09/80",
+                "Wes Jackson, Male, 14/08/74");
+
+        AddressBook addressBook = new AddressBook();
+        addressBook.loadFromFile(addressBookFile);
+
+        Optional<Entry> byName = addressBook.findByName("Gemma Lane");
+
+        assertThat(byName.isPresent(), is(true));
+        assertThat(byName.get().getName(), is("Gemma Lane"));
+    }
+
+    @Test
+    public void cannotFindNameThatDoesntExist() throws IOException {
+        AddressBook addressBook = new AddressBook();
+        Optional<Entry> byName = addressBook.findByName("Missing Name");
+
+        assertThat(byName.isPresent(), is(false));
     }
 
 }

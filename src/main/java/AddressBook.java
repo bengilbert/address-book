@@ -24,6 +24,10 @@ public class AddressBook {
         return Collections.emptyList();
     }
 
+    public Optional<Entry> findByName(final String fullName) {
+        return entries.stream().filter(entry -> entry.getName().equalsIgnoreCase(fullName)).findFirst();
+    }
+
     public void loadFromFile(File addressBookFile) {
         entries.addAll(EntryFactory.fromFile(addressBookFile));
     }
