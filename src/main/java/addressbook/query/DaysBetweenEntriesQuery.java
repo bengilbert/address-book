@@ -29,7 +29,6 @@ public class DaysBetweenEntriesQuery implements CountingQuery {
             return Optional.empty();
         }
 
-        Period period = Period.between(entry1.get().getDateOfBirth(), entry2.get().getDateOfBirth());
-        return Optional.of(period.get(ChronoUnit.DAYS));
+        return Optional.of(Math.abs(ChronoUnit.DAYS.between(entry1.get().getDateOfBirth(), entry2.get().getDateOfBirth())));
     }
 }

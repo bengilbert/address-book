@@ -2,6 +2,7 @@ package addressbook;
 
 import addressbook.entry.Entry;
 import addressbook.entry.EntryFactory;
+import addressbook.query.DaysBetweenEntriesQuery;
 import addressbook.query.NumberOfMalesQuery;
 import addressbook.query.OldestEntriesQuery;
 
@@ -23,8 +24,8 @@ public class AddressBook {
         return new OldestEntriesQuery(entries).runQuery();
     }
 
-    public Optional<Entry> findByName(final String fullName) {
-        return entries.stream().filter(entry -> entry.getName().equalsIgnoreCase(fullName)).findFirst();
+    public Optional<Long> findDaysBetweenEntriesByName(final String nameOne, final String nameTwo) {
+        return new DaysBetweenEntriesQuery(entries, nameOne, nameTwo).runQuery();
     }
 
     public void loadFromFile(File addressBookFile) {

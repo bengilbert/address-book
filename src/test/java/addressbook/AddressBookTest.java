@@ -1,12 +1,10 @@
 package addressbook;
 
-import addressbook.entry.Entry;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Optional;
 
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
@@ -25,7 +23,7 @@ public class AddressBookTest {
     @Test
     public void shouldTheNumberOfMales() throws URISyntaxException {
         AddressBook addressBook = new AddressBook();
-        File file = new File(AddressBookTest.class.getResource("AddressBook2").toURI());
+        File file = new File(AddressBookTest.class.getResource("/AddressBook2").toURI());
         addressBook.loadFromFile(file);
 
         assertThat(addressBook.numberOfMales(), is(3L));
@@ -65,8 +63,9 @@ public class AddressBookTest {
         assertThat(addressBook.oldest(), is((empty())));
     }
 
+
     @Test
-    public void canFindEntryByName() throws IOException {
+    public void canReturnTheDifferenceInAgeBetweenTwoEntries() throws IOException {
         File addressBookFile = AddressBookFileFixture.createAddressBook("Bill McKnight, Male, 16/03/77",
                 "Paul Robinson, Male, 15/01/85",
                 "Gemma Lane, Female, 20/11/91",
@@ -76,31 +75,7 @@ public class AddressBookTest {
         AddressBook addressBook = new AddressBook();
         addressBook.loadFromFile(addressBookFile);
 
-        Optional<Entry> byName = addressBook.findByName("Gemma Lane");
-
-        assertThat(byName.isPresent(), is(true));
-        assertThat(byName.get().getName(), is("Gemma Lane"));
-    }
-
-    @Test
-    public void canFindEntryByNameIsCaseInsensitive() throws IOException {
-        File addressBookFile = AddressBookFileFixture.createAddressBook("Gemma Lane, Female, 20/11/91");
-
-        AddressBook addressBook = new AddressBook();
-        addressBook.loadFromFile(addressBookFile);
-
-        Optional<Entry> byName = addressBook.findByName("GEMMA LANE");
-
-        assertThat(byName.isPresent(), is(true));
-        assertThat(byName.get().getName(), is("Gemma Lane"));
-    }
-
-    @Test
-    public void cannotFindNameThatDoesntExist() throws IOException {
-        AddressBook addressBook = new AddressBook();
-        Optional<Entry> byName = addressBook.findByName("Missing Name");
-
-        assertThat(byName.isPresent(), is(false));
+        assertThat(addressBook.findDaysBetweenEntriesByName("Paul Robinson", "bill McKnight").get(), is(2862L));
     }
 
 }
