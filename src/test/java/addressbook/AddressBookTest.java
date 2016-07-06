@@ -23,7 +23,7 @@ public class AddressBookTest {
     @Test
     public void shouldTheNumberOfMales() throws URISyntaxException {
         AddressBook addressBook = new AddressBook();
-        File file = new File(AddressBookTest.class.getResource("/AddressBook2").toURI());
+        File file = new File(AddressBookTest.class.getResource("/TestAddressBook").toURI());
         addressBook.loadFromFile(file);
 
         assertThat(addressBook.numberOfMales(), is(3L));

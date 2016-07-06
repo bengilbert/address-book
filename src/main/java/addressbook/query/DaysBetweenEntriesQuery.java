@@ -2,7 +2,6 @@ package addressbook.query;
 
 import addressbook.entry.Entry;
 
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Set;
