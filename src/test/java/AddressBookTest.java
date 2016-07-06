@@ -13,7 +13,7 @@ public class AddressBookTest {
     public void shouldReturnZeroMalesInAddressBookWhenEmpty() {
 
         AddressBook addressBook = new AddressBook();
-        assertThat(addressBook.numberOfMales(), is(0L));
+        assertThat(addressBook.genderCount(Gender.MALE), is(0L));
 
     }
 
@@ -23,7 +23,7 @@ public class AddressBookTest {
         File file = new File(AddressBookTest.class.getResource("AddressBook").toURI());
         addressBook.loadFromFile(file);
 
-        assertThat(addressBook.numberOfMales(), is(3L));
+        assertThat(addressBook.genderCount(Gender.MALE), is(3L));
 
     }
 
