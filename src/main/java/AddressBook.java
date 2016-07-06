@@ -2,8 +2,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
 
 public class AddressBook {
 

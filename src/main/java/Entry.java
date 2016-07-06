@@ -1,8 +1,7 @@
 import lombok.Value;
-import java.time.LocalDate;;
 
+import java.time.LocalDate;
 import java.util.Objects;
-
 
 @Value
 public class Entry {
