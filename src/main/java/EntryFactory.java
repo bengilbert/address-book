@@ -5,16 +5,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.IsoFields;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalUnit;
 import java.util.HashSet;
 import java.util.Set;
 
 
 public class EntryFactory {
 
-    public static final int NUMBER_OF_FIELDS = 3;
+    private static final int NUMBER_OF_FIELDS = 3;
 
     public static Set<Entry> fromFile(File addressBookFile) {
-        Set<Entry> entries = new HashSet<Entry>();
+        Set<Entry> entries = new HashSet<>();
 
         try {
             Reader in = new FileReader(addressBookFile);
@@ -23,9 +29,9 @@ public class EntryFactory {
                 if (record.size() >= NUMBER_OF_FIELDS) {
                     String name = record.get(0).trim();
                     String genderText = record.get(1).trim();
-                    String dateOfBirth = record.get(2).trim();
+                    String dateOfBirthText = record.get(2).trim();
 
-                    if (isValidEntry(name, genderText, dateOfBirth)) {
+                    if (isValidEntry(name, genderText, dateOfBirthText)) {
 
                         Gender gender = Gender.UNKNOWN;
 
@@ -34,6 +40,8 @@ public class EntryFactory {
                         } else if ("female".equalsIgnoreCase(genderText)) {
                             gender = Gender.FEMALE;
                         }
+
+                        LocalDate dateOfBirth = parseDateOfBirth(dateOfBirthText);
 
                         Entry entry = new Entry(name, gender, dateOfBirth);
                         entries.add(entry);
@@ -49,6 +57,17 @@ public class EntryFactory {
     }
 
     private static boolean isValidEntry(String name, String genderText, String dateOfBirth) {
-        return !name.isEmpty() && !genderText.isEmpty() && !dateOfBirth.isEmpty();
+        return !name.isEmpty() && !genderText.isEmpty() && !dateOfBirth.isEmpty() && dateOfBirth.matches("^\\d+\\/\\d+\\/\\d+$");
+    }
+
+    private static LocalDate parseDateOfBirth(final String dateOfBirthText) {
+        LocalDate dateOfBirth = LocalDate.parse(dateOfBirthText, DateTimeFormatter.ofPattern("dd/MM/yy"));
+
+        if (dateOfBirth.isAfter(ChronoLocalDate.from(LocalDate.now()))) {
+            return dateOfBirth.minusYears(100);
+        }
+
+        return dateOfBirth;
+
     }
 }

@@ -1,4 +1,5 @@
 import lombok.Value;
+import java.time.LocalDate;;
 
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ public class Entry {
 
     private final String name;
     private final Gender gender;
-    private final String dateOfBirth;
+    private final LocalDate dateOfBirth;
 
     @Override
     public boolean equals(Object o) {
