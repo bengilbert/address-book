@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Entry {
 
     private final String name;
-    private final String gender;
+    private final Gender gender;
     private final String dateOfBirth;
 
     @Override

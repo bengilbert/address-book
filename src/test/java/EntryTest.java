@@ -6,9 +6,9 @@ public class EntryTest {
 
     @Test
     public void entriesWithSameNameAreEqual() {
-        assertEquals(new Entry("name", "male", "1/1/1980"), new Entry("name", "female", "1/1/1980"));
-        assertEquals(new Entry("name", "male", "1/1/1980"), new Entry("name", "male", "1/1/1990"));
-        assertEquals(new Entry("name", "male", "dob"), new Entry("name", "male", "dob"));
-        assertEquals(new Entry("name", "gender", "dob"), new Entry("NAME", "gender", "dob"));
+        assertEquals(new Entry("name", Gender.MALE, "1/1/1980"), new Entry("name", Gender.FEMALE, "1/1/1980"));
+        assertEquals(new Entry("name", Gender.MALE, "1/1/1980"), new Entry("name", Gender.MALE, "1/1/1990"));
+        assertEquals(new Entry("name", Gender.MALE, "dob"), new Entry("name", Gender.MALE, "dob"));
+        assertEquals(new Entry("name", Gender.UNKNOWN, "dob"), new Entry("NAME", Gender.UNKNOWN, "dob"));
     }
 }
